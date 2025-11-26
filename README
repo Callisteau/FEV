@@ -1,0 +1,8 @@
+Conda activate your environement:
+conda activate myenvironment 
+conda install pyarrow
+python -c "import pyarrow; print(pyarrow.__version__)"
+
+Informations:
+openfoodfact page : https://world.openfoodfacts.org/data
+fiel of the data : https://world.openfoodfacts.org/data/data-fields.txt
