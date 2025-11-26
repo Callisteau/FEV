@@ -1,0 +1,388 @@
+<pyarrow._parquet.ParquetSchema object at 0x7f15a0aaa4c0>
+required group field_id=-1 schema {
+  optional int32 field_id=-1 additives_n;
+  optional group field_id=-1 additives_tags (List) {
+    repeated group field_id=-1 list {
+      optional binary field_id=-1 element (String);
+    }
+  }
+  optional group field_id=-1 allergens_tags (List) {
+    repeated group field_id=-1 list {
+      optional binary field_id=-1 element (String);
+    }
+  }
+  optional group field_id=-1 brands_tags (List) {
+    repeated group field_id=-1 list {
+      optional binary field_id=-1 element (String);
+    }
+  }
+  optional binary field_id=-1 brands (String);
+  optional binary field_id=-1 categories (String);
+  optional group field_id=-1 categories_tags (List) {
+    repeated group field_id=-1 list {
+      optional binary field_id=-1 element (String);
+    }
+  }
+  optional group field_id=-1 categories_properties {
+    optional int32 field_id=-1 ciqual_food_code;
+    optional int32 field_id=-1 agribalyse_food_code;
+    optional int32 field_id=-1 agribalyse_proxy_food_code;
+  }
+  optional group field_id=-1 checkers_tags (List) {
+    repeated group field_id=-1 list {
+      optional binary field_id=-1 element (String);
+    }
+  }
+  optional group field_id=-1 ciqual_food_name_tags (List) {
+    repeated group field_id=-1 list {
+      optional binary field_id=-1 element (String);
+    }
+  }
+  optional group field_id=-1 cities_tags (List) {
+    repeated group field_id=-1 list {
+      optional binary field_id=-1 element (String);
+    }
+  }
+  optional binary field_id=-1 code (String);
+  optional binary field_id=-1 compared_to_category (String);
+  optional int32 field_id=-1 complete;
+  optional float field_id=-1 completeness;
+  optional group field_id=-1 correctors_tags (List) {
+    repeated group field_id=-1 list {
+      optional binary field_id=-1 element (String);
+    }
+  }
+  optional group field_id=-1 countries_tags (List) {
+    repeated group field_id=-1 list {
+      optional binary field_id=-1 element (String);
+    }
+  }
+  optional int64 field_id=-1 created_t;
+  optional binary field_id=-1 creator (String);
+  optional group field_id=-1 data_quality_errors_tags (List) {
+    repeated group field_id=-1 list {
+      optional binary field_id=-1 element (String);
+    }
+  }
+  optional group field_id=-1 data_quality_info_tags (List) {
+    repeated group field_id=-1 list {
+      optional binary field_id=-1 element (String);
+    }
+  }
+  optional group field_id=-1 data_quality_warnings_tags (List) {
+    repeated group field_id=-1 list {
+      optional binary field_id=-1 element (String);
+    }
+  }
+  optional group field_id=-1 data_sources_tags (List) {
+    repeated group field_id=-1 list {
+      optional binary field_id=-1 element (String);
+    }
+  }
+  optional binary field_id=-1 ecoscore_data (String);
+  optional binary field_id=-1 ecoscore_grade (String);
+  optional int32 field_id=-1 ecoscore_score;
+  optional group field_id=-1 ecoscore_tags (List) {
+    repeated group field_id=-1 list {
+      optional binary field_id=-1 element (String);
+    }
+  }
+  optional group field_id=-1 editors (List) {
+    repeated group field_id=-1 list {
+      optional binary field_id=-1 element (String);
+    }
+  }
+  optional group field_id=-1 emb_codes_tags (List) {
+    repeated group field_id=-1 list {
+      optional binary field_id=-1 element (String);
+    }
+  }
+  optional binary field_id=-1 emb_codes (String);
+  optional group field_id=-1 entry_dates_tags (List) {
+    repeated group field_id=-1 list {
+      optional binary field_id=-1 element (String);
+    }
+  }
+  optional group field_id=-1 food_groups_tags (List) {
+    repeated group field_id=-1 list {
+      optional binary field_id=-1 element (String);
+    }
+  }
+  optional group field_id=-1 generic_name (List) {
+    repeated group field_id=-1 list {
+      optional group field_id=-1 element {
+        optional binary field_id=-1 lang (String);
+        optional binary field_id=-1 text (String);
+      }
+    }
+  }
+  optional group field_id=-1 images (List) {
+    repeated group field_id=-1 list {
+      optional group field_id=-1 element {
+        optional binary field_id=-1 key (String);
+        optional int32 field_id=-1 imgid;
+        optional int32 field_id=-1 rev;
+        optional group field_id=-1 sizes {
+          optional group field_id=-1 100 {
+            optional int32 field_id=-1 h;
+            optional int32 field_id=-1 w;
+          }
+          optional group field_id=-1 200 {
+            optional int32 field_id=-1 h;
+            optional int32 field_id=-1 w;
+          }
+          optional group field_id=-1 400 {
+            optional int32 field_id=-1 h;
+            optional int32 field_id=-1 w;
+          }
+          optional group field_id=-1 full {
+            optional int32 field_id=-1 h;
+            optional int32 field_id=-1 w;
+          }
+        }
+        optional int64 field_id=-1 uploaded_t;
+        optional binary field_id=-1 uploader (String);
+      }
+    }
+  }
+  optional group field_id=-1 informers_tags (List) {
+    repeated group field_id=-1 list {
+      optional binary field_id=-1 element (String);
+    }
+  }
+  optional group field_id=-1 ingredients_analysis_tags (List) {
+    repeated group field_id=-1 list {
+      optional binary field_id=-1 element (String);
+    }
+  }
+  optional int32 field_id=-1 ingredients_from_palm_oil_n;
+  optional int32 field_id=-1 ingredients_n;
+  optional group field_id=-1 ingredients_original_tags (List) {
+    repeated group field_id=-1 list {
+      optional binary field_id=-1 element (String);
+    }
+  }
+  optional int32 field_id=-1 ingredients_percent_analysis;
+  optional group field_id=-1 ingredients_tags (List) {
+    repeated group field_id=-1 list {
+      optional binary field_id=-1 element (String);
+    }
+  }
+  optional group field_id=-1 ingredients_text (List) {
+    repeated group field_id=-1 list {
+      optional group field_id=-1 element {
+        optional binary field_id=-1 lang (String);
+        optional binary field_id=-1 text (String);
+      }
+    }
+  }
+  optional int32 field_id=-1 ingredients_with_specified_percent_n;
+  optional int32 field_id=-1 ingredients_with_unspecified_percent_n;
+  optional int32 field_id=-1 ingredients_without_ciqual_codes_n;
+  optional group field_id=-1 ingredients_without_ciqual_codes (List) {
+    repeated group field_id=-1 list {
+      optional binary field_id=-1 element (String);
+    }
+  }
+  optional binary field_id=-1 ingredients (String);
+  optional int32 field_id=-1 known_ingredients_n;
+  optional group field_id=-1 labels_tags (List) {
+    repeated group field_id=-1 list {
+      optional binary field_id=-1 element (String);
+    }
+  }
+  optional binary field_id=-1 labels (String);
+  optional binary field_id=-1 lang (String);
+  optional group field_id=-1 languages_tags (List) {
+    repeated group field_id=-1 list {
+      optional binary field_id=-1 element (String);
+    }
+  }
+  optional group field_id=-1 last_edit_dates_tags (List) {
+    repeated group field_id=-1 list {
+      optional binary field_id=-1 element (String);
+    }
+  }
+  optional binary field_id=-1 last_editor (String);
+  optional int64 field_id=-1 last_image_t;
+  optional binary field_id=-1 last_modified_by (String);
+  optional int64 field_id=-1 last_modified_t;
+  optional int64 field_id=-1 last_updated_t;
+  optional binary field_id=-1 link (String);
+  optional group field_id=-1 main_countries_tags (List) {
+    repeated group field_id=-1 list {
+      optional binary field_id=-1 element (String);
+    }
+  }
+  optional group field_id=-1 manufacturing_places_tags (List) {
+    repeated group field_id=-1 list {
+      optional binary field_id=-1 element (String);
+    }
+  }
+  optional binary field_id=-1 manufacturing_places (String);
+  optional int32 field_id=-1 max_imgid;
+  optional group field_id=-1 minerals_tags (List) {
+    repeated group field_id=-1 list {
+      optional binary field_id=-1 element (String);
+    }
+  }
+  optional group field_id=-1 misc_tags (List) {
+    repeated group field_id=-1 list {
+      optional binary field_id=-1 element (String);
+    }
+  }
+  optional int32 field_id=-1 new_additives_n;
+  optional boolean field_id=-1 no_nutrition_data;
+  optional int32 field_id=-1 nova_group;
+  optional group field_id=-1 nova_groups_tags (List) {
+    repeated group field_id=-1 list {
+      optional binary field_id=-1 element (String);
+    }
+  }
+  optional binary field_id=-1 nova_groups (String);
+  optional group field_id=-1 nucleotides_tags (List) {
+    repeated group field_id=-1 list {
+      optional binary field_id=-1 element (String);
+    }
+  }
+  optional group field_id=-1 nutrient_levels_tags (List) {
+    repeated group field_id=-1 list {
+      optional binary field_id=-1 element (String);
+    }
+  }
+  optional group field_id=-1 nutriments (List) {
+    repeated group field_id=-1 list {
+      optional group field_id=-1 element {
+        optional binary field_id=-1 name (String);
+        optional float field_id=-1 value;
+        optional float field_id=-1 100g;
+        optional float field_id=-1 serving;
+        optional binary field_id=-1 unit (String);
+        optional float field_id=-1 prepared_value;
+        optional float field_id=-1 prepared_100g;
+        optional float field_id=-1 prepared_serving;
+        optional binary field_id=-1 prepared_unit (String);
+      }
+    }
+  }
+  optional binary field_id=-1 nutriscore_grade (String);
+  optional int32 field_id=-1 nutriscore_score;
+  optional binary field_id=-1 nutrition_data_per (String);
+  optional boolean field_id=-1 obsolete;
+  optional group field_id=-1 origins_tags (List) {
+    repeated group field_id=-1 list {
+      optional binary field_id=-1 element (String);
+    }
+  }
+  optional binary field_id=-1 origins (String);
+  optional group field_id=-1 owner_fields (List) {
+    repeated group field_id=-1 list {
+      optional group field_id=-1 element {
+        optional binary field_id=-1 field_name (String);
+        optional int64 field_id=-1 timestamp;
+      }
+    }
+  }
+  optional binary field_id=-1 owner (String);
+  optional boolean field_id=-1 packagings_complete;
+  optional group field_id=-1 packaging_recycling_tags (List) {
+    repeated group field_id=-1 list {
+      optional binary field_id=-1 element (String);
+    }
+  }
+  optional group field_id=-1 packaging_shapes_tags (List) {
+    repeated group field_id=-1 list {
+      optional binary field_id=-1 element (String);
+    }
+  }
+  optional group field_id=-1 packaging_tags (List) {
+    repeated group field_id=-1 list {
+      optional binary field_id=-1 element (String);
+    }
+  }
+  optional group field_id=-1 packaging_text (List) {
+    repeated group field_id=-1 list {
+      optional group field_id=-1 element {
+        optional binary field_id=-1 lang (String);
+        optional binary field_id=-1 text (String);
+      }
+    }
+  }
+  optional binary field_id=-1 packaging (String);
+  optional group field_id=-1 packagings (List) {
+    repeated group field_id=-1 list {
+      optional group field_id=-1 element {
+        optional binary field_id=-1 material (String);
+        optional int64 field_id=-1 number_of_units;
+        optional binary field_id=-1 quantity_per_unit (String);
+        optional binary field_id=-1 quantity_per_unit_unit (String);
+        optional binary field_id=-1 quantity_per_unit_value (String);
+        optional binary field_id=-1 recycling (String);
+        optional binary field_id=-1 shape (String);
+        optional float field_id=-1 weight_measured;
+      }
+    }
+  }
+  optional group field_id=-1 photographers (List) {
+    repeated group field_id=-1 list {
+      optional binary field_id=-1 element (String);
+    }
+  }
+  optional int64 field_id=-1 popularity_key;
+  optional group field_id=-1 popularity_tags (List) {
+    repeated group field_id=-1 list {
+      optional binary field_id=-1 element (String);
+    }
+  }
+  optional group field_id=-1 product_name (List) {
+    repeated group field_id=-1 list {
+      optional group field_id=-1 element {
+        optional binary field_id=-1 lang (String);
+        optional binary field_id=-1 text (String);
+      }
+    }
+  }
+  optional binary field_id=-1 product_quantity_unit (String);
+  optional binary field_id=-1 product_quantity (String);
+  optional group field_id=-1 purchase_places_tags (List) {
+    repeated group field_id=-1 list {
+      optional binary field_id=-1 element (String);
+    }
+  }
+  optional binary field_id=-1 quantity (String);
+  optional int32 field_id=-1 rev;
+  optional int32 field_id=-1 scans_n;
+  optional binary field_id=-1 serving_quantity (String);
+  optional binary field_id=-1 serving_size (String);
+  optional group field_id=-1 states_tags (List) {
+    repeated group field_id=-1 list {
+      optional binary field_id=-1 element (String);
+    }
+  }
+  optional group field_id=-1 stores_tags (List) {
+    repeated group field_id=-1 list {
+      optional binary field_id=-1 element (String);
+    }
+  }
+  optional binary field_id=-1 stores (String);
+  optional group field_id=-1 traces_tags (List) {
+    repeated group field_id=-1 list {
+      optional binary field_id=-1 element (String);
+    }
+  }
+  optional int32 field_id=-1 unique_scans_n;
+  optional int32 field_id=-1 unknown_ingredients_n;
+  optional group field_id=-1 unknown_nutrients_tags (List) {
+    repeated group field_id=-1 list {
+      optional binary field_id=-1 element (String);
+    }
+  }
+  optional group field_id=-1 vitamins_tags (List) {
+    repeated group field_id=-1 list {
+      optional binary field_id=-1 element (String);
+    }
+  }
+  optional int32 field_id=-1 with_non_nutritive_sweeteners;
+  optional int32 field_id=-1 with_sweeteners;
+}
+
