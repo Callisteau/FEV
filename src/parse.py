@@ -1,61 +1,99 @@
+import pyarrow.dataset as ds
 import pyarrow.parquet as pq
 import pandas as pd
-import numpy as np
-
-parquet_file = pq.ParquetFile("data/food.parquet")
 
 SUGAR_NAMES = {"sugar", "sugars", "glucose", "fructose", "sucrose"}
 
-results = []   # we store all extracted rows here
+def extract_product_origin_vectorized(df, column="manufacturing_places"):
+    origins_list = df[column].tolist()
 
-for batch in parquet_file.iter_batches(columns=["product_name", "nutriments", "lang"], batch_size=200):
-    df = batch.to_pandas()
+    return [
+        origin.split(",")[0].strip() if isinstance(origin, str) else None
+        for origin in origins_list
+    ]
 
-    # Keep only French products
-    df = df[df["lang"] == "fr"]
 
-    # -------- Extract product text --------
-    def extract_product_text(arr):
-        if isinstance(arr, (list, np.ndarray)):
-            for item in arr:
-                if item.get("lang") == "main":
-                    return item.get("text")
-        return None
+def extract_product_name_vectorized(df, column="product_name"):
+    name_list = df[column].tolist()
+    
+    return [
+        next((item["text"] for item in names if isinstance(item, dict) and item.get("lang")=="main"), None)
+        if names is not None else None
+        for names in name_list
+    ]
 
-    df["product_text"] = df["product_name"].apply(extract_product_text)
+def extract_nutriment_vectorized(df, column="nutriments", nutriment_name="sugars"):
+    nutriments_list = df[column].tolist()
+    
+    return [
+        next((n["100g"] for n in nutriments if n.get("name") == nutriment_name), None)
+        if nutriments is not None else None
+        for nutriments in nutriments_list
+    ]
 
-    # -------- Extract sugar nutriment name --------
-    def extract_sugar_name(arr):
-        if isinstance(arr, (list, np.ndarray)):
-            for item in arr:
-                name = item.get("name", "").lower()
-                if name in SUGAR_NAMES:
-                    return name
-        return None
+def process_openfoodfacts_parquet(parquet_path, output_csv, language_filter="en", batch_size=1024,columns=None,):
 
-    df["sugar_name"] = df["nutriments"].apply(extract_sugar_name)
 
-    # -------- Extract sugar value 100g --------
-    def extract_sugar_value(arr):
-        if isinstance(arr, (list, np.ndarray)):
-            for item in arr:
-                name = item.get("name", "").lower()
-                if name in SUGAR_NAMES:
-                    return item.get("100g")
-        return None
+    dataset = ds.dataset(parquet_path, format="parquet")
+    total_rows = dataset.count_rows()
+    num_batches = (total_rows + batch_size - 1) // batch_size 
 
-    df["sugar_100g"] = df["nutriments"].apply(extract_sugar_value)
+    print(f"Total rows : {total_rows}")
+    print(f"Batch size : {batch_size}")
+    print(f"Estimated number of batches : {num_batches}")
+    batch_id = 0
 
-    # Keep only entries where sugar exists
-    filtered = df[df["sugar_name"].notnull()][["product_text", "sugar_name", "sugar_100g"]]
+    writer = None
+    first_write = True
 
-    results.append(filtered)
+    for batch in dataset.to_batches(batch_size=batch_size):
+        batch_id += 1
+        print(f"\n Traitement batch #{batch_id} (taille: {batch.num_rows} lignes)")
 
-# -------- Combine all results --------
-final_df = pd.concat(results, ignore_index=True)
+        df = batch.to_pandas()
+        if columns is not None:
+            df = df[[c for c in columns if c in df.columns]]
 
-# -------- Save to Parquet --------
-final_df.to_parquet("data/sugar_products.parquet", index=False)
 
-print("Saved to data/sugar_products.parquet")
-print(final_df.head())
+
+        if "languages_codes" in df.columns:
+            df = df[df["languages_codes"].str.contains(language_filter, na=False)]
+        elif "lang" in df.columns:
+            df = df[df["lang"] == language_filter]
+
+
+        if df.empty:
+            continue
+
+
+        df["sugars_100g"] = extract_nutriment_vectorized(df, "nutriments", "sugars")
+        df["carbohydrates_100g"] = extract_nutriment_vectorized(df, "nutriments", "carbohydrates")
+
+        if "nutriments" in df.columns:
+            df = df.drop(columns=["nutriments"])
+
+        df["product_name_clean"] = extract_product_name_vectorized(df, "product_name")
+        df["product_origin"] = extract_product_origin_vectorized(df, "manufacturing_places")
+        df = df.drop(columns=["product_name"])
+        df.to_csv(output_csv, mode="a", index=False, header=first_write,sep="\t")
+        first_write = False
+        #print(df.head())
+        #break
+
+if __name__ == "__main__":
+    useful_columns = [
+        "manufacturing_places",
+        "product_name",
+        "lang",
+        "nutriments",
+        "brands",
+        "categories"
+    ]
+    process_openfoodfacts_parquet(
+        parquet_path="data/food.parquet",
+        output_csv="openfoodfacts_en_clean.csv",
+        language_filter="en",
+        columns=useful_columns
+    )
+
+    print("Traitement terminé : fichier généré-> openfoodfacts_en_clean.csv")
