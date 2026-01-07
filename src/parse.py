@@ -90,7 +90,7 @@ if __name__ == "__main__":
         "categories"
     ]
     process_openfoodfacts_parquet(
-        parquet_path="data/food.parquet",
+        parquet_path="../data/food.parquet",
         output_csv="openfoodfacts_en_clean.csv",
         language_filter="en",
         columns=useful_columns
