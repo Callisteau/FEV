@@ -13,7 +13,15 @@ def filter_origin_places():
 
     print("Final len:", len(df_clean))
     
-    print(f"Cleaned CSV saved to: {output_csv}")
-
 
 filter_origin_places()
+
+def extract_product_name(name):
+    df = pd.read_csv(output_csv, sep="\t")
+    name_lower = name.lower()
+    df_filtered = df[df["product_name_clean"].astype(str).str.lower() == name_lower]
+    output = "openfoodfacts_" + name + ".csv"
+    df_filtered.to_csv(output, sep="\t", index=False)
+ 
+extract_product_name("oreo")
+
