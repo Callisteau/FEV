@@ -3,9 +3,6 @@ from plotnine import ggplot, aes, geom_col, theme, element_text
 import spacy
 import pycountry
 
-data_csv = "openfoodfacts_en_clean_filtered.csv"
-
-df = pd.read_csv(data_csv, sep="\t")
 nlp = spacy.load("en_core_web_sm")
 
 def normalize_to_country(text):
@@ -66,37 +63,3 @@ def normalize_countries_batch(origin_series):
     
     # Mapper les résultats à toute la série
     return origin_series.map(lambda x: cache.get(x, None) if pd.notna(x) else None)
-
-df = df[["product_origin", "sugars_100g"]]
-df = df.dropna(subset=["product_origin"])
-
-# print(f"Avant normalisation: {len(df['product_origin'].unique())} origines uniques")
-
-# # Normaliser avec spaCy
-# df['product_origin_normalized'] = normalize_countries_batch(df['product_origin'])
-
-# print(f"Après normalisation: {len(df['product_origin_normalized'].unique())} origines uniques")
-
-# Grouper par origine normalisée
-df_grouped = df.groupby("product_origin_normalized", as_index=False).agg(
-    sugars_100g=('sugars_100g', 'mean'),
-    count=('sugars_100g', 'count')
-)
-df_grouped = df_grouped.rename(columns={'product_origin_normalized': 'product_origin'})
-
-# Trier par moyenne de sucre pour un meilleur visuel
-df_grouped = df_grouped.sort_values('sugars_100g')
-
-print(f"Nombre de pays dans le graphique: {len(df_grouped)}")
-
-graph = (
-    ggplot(df_grouped)
-    + aes(x="product_origin", y="sugars_100g")
-    + geom_col()
-    + theme(
-        axis_text_x=element_text(rotation=90, ha="right", size=6),
-        figure_size=(20, 8)
-    )
-)
-
-graph.save("myplot.png", dpi=600)
