@@ -1,27 +1,62 @@
 import pandas as pd
+import spacy
+from pathlib import Path
+from spacy.pipeline import EntityRuler
+import re
 
-input_csv = "openfoodfacts_en_clean.csv"
-output_csv = "openfoodfacts_en_clean_filtered.csv"
+# --------
+# LOAD DATA
+# --------
 
-def filter_origin_places():
-    df = pd.read_csv(input_csv, sep="\t")
+BASE_DIR = Path(__file__).resolve().parent.parent
+data_dir = BASE_DIR / "data" 
+data_csv = data_dir / f"openfoodfacts_en_clean_filtered.csv"
+df = pd.read_csv(data_csv, sep="\t")
 
-    print("Initial len :", len(df))
+# -------------------------------------------
+# 1) SPACY MODEL + ENTITY RULER (typos connues)
+# -------------------------------------------
+nlp = spacy.blank("en")
 
-    df_clean = df[~(df["manufacturing_places"].isna())]
-    df_clean.to_csv(output_csv, sep="\t", index=False)
+ruler = nlp.add_pipe("entity_ruler")
 
-    print("Final len:", len(df_clean))
-    
+# Typos courantes et formes proches de "Skittles"
+patterns = [
+    {"label": "WHEY", "pattern": "WHEY"},
+    {"label": "WHEY", "pattern": "Whey"},
+]
 
-filter_origin_places()
+ruler.add_patterns(patterns)
 
-def extract_product_name(name):
-    df = pd.read_csv(output_csv, sep="\t")
-    name_lower = name.lower()
-    df_filtered = df[df["product_name_clean"].astype(str).str.lower() == name_lower]
-    output = "openfoodfacts_" + name + ".csv"
-    df_filtered.to_csv(output, sep="\t", index=False)
- 
-extract_product_name("oreo")
+# -----------------------------------------------------------
+# 2) Fuzzy regex pour capturer les variations non listées
+# -----------------------------------------------------------
+fuzzy_regex = r"wh[ei]y"
 
+def detect_whey_regex(text):
+    if pd.isna(text):
+        return False
+    return re.search(fuzzy_regex, text.lower()) is not None
+
+
+# -----------------------------------------------------------
+# 3) Application SpaCy + fuzzy regex
+# -----------------------------------------------------------
+def detect_whey_spacy(text):
+    if pd.isna(text):
+        return False
+    doc = nlp(text)
+    return any(ent.label_ == "WHEY" for ent in doc.ents)
+
+
+df["has_whey_spacy"] = df["product_name_clean"].apply(detect_whey_spacy)
+df["has_whey_regex"] = df["product_name_clean"].apply(detect_whey_regex)
+
+# Combine both
+df["has_whey"] = df["has_whey_spacy"] | df["has_whey_regex"]
+
+df_whey = df[df["has_whey"]]
+output_csv = data_dir / "openfoodfacts_whey.csv"
+df_whey.to_csv(output_csv, sep="\t", index=False)
+
+print("Produits whey détectés :", len(df_whey))
