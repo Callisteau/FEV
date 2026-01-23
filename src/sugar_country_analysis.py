@@ -14,7 +14,8 @@ def plot_sugar_by_country(product_name):
     base_dir = Path(__file__).resolve().parent.parent   
     data_dir = base_dir / "data"
     results_dir = data_dir / "results"
-    data_csv = f"openfoodfacts_{product_name}.csv"
+    data_csv = data_dir / f"openfoodfacts_{product_name}.csv"
+
     
 
     # 2. Chargement des données
@@ -25,15 +26,23 @@ def plot_sugar_by_country(product_name):
 
     # 4. Calcul de la moyenne des sucres
     sugar_by_country = (
-        df.groupby("product_origin_normalized")["sugars_100g"]
-        .mean()
-        .sort_values(ascending=False)
+    df.groupby("product_origin_normalized")["sugars_100g"]
+    .mean()
+    .sort_values(ascending=False)
+    .reset_index()
     )
+
+    sugar_by_country.columns = ["country", "avg_sugars_100g"]
+
     output_csv = results_dir / f"sugar_by_country_{product_name}.csv"
     sugar_by_country.to_csv(output_csv, index=False)
+
     # 5. Plot
     plt.figure(figsize=(12, 6))
-    sugar_by_country.plot(kind="bar")
+    plt.bar(
+    sugar_by_country["country"],
+    sugar_by_country["avg_sugars_100g"]
+    )   
 
     plt.title(f"Taux de sucres (g/100g) des produits {product_name.capitalize()} par pays")
     plt.xlabel("Pays")
