@@ -21,7 +21,8 @@ manual_map = {
     "purchase": "United States",
     "Pays-Bas": "Netherlands",
     "Dubai": "Arab Emirates",
-    "Veghel": "Netherlands"
+    "Veghel": "Netherlands",
+    "République Tchèque": "Czech Republic"
 }
 
 def normalize_to_country(text):
