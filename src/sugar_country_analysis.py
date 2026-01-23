@@ -1,4 +1,5 @@
 import matplotlib.pyplot as plt
+from pathlib import Path
 import pandas as pd
 import sys
 from countries import normalize_countries_batch
@@ -9,8 +10,12 @@ def plot_sugar_by_country(product_name):
                    ex : 'snickers', 'pepsi', 'cocacola'
     """
 
-    # 1. Construction dynamique du CSV
+    # 1. Chargement des chemins et du csv
+    base_dir = Path(__file__).resolve().parent.parent   
+    data_dir = base_dir / "data"
+    results_dir = data_dir / "results"
     data_csv = f"openfoodfacts_{product_name}.csv"
+    
 
     # 2. Chargement des données
     df = pd.read_csv(data_csv, sep="\t")
@@ -24,7 +29,8 @@ def plot_sugar_by_country(product_name):
         .mean()
         .sort_values(ascending=False)
     )
-
+    output_csv = results_dir / f"sugar_by_country_{product_name}.csv"
+    sugar_by_country.to_csv(output_csv, index=False)
     # 5. Plot
     plt.figure(figsize=(12, 6))
     sugar_by_country.plot(kind="bar")
