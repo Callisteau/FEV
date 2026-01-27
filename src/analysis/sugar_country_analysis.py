@@ -2,7 +2,8 @@ import matplotlib.pyplot as plt
 from pathlib import Path
 import pandas as pd
 import sys
-from countries import normalize_countries_batch
+sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
+from utils.countries import normalize_countries_batch
 
 def plot_sugar_by_country(product_name):
     """
@@ -11,7 +12,7 @@ def plot_sugar_by_country(product_name):
     """
 
     # 1. Chargement des chemins et du csv
-    base_dir = Path(__file__).resolve().parent.parent   
+    base_dir = Path(__file__).resolve().parent.parent.parent   
     data_dir = base_dir / "data"
     results_dir = data_dir / "results"
     data_csv = data_dir / f"openfoodfacts_{product_name}.csv"

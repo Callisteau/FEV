@@ -1,8 +1,120 @@
-Conda activate your environement:
-conda activate myenvironment 
-conda install pyarrow
-python -c "import pyarrow; print(pyarrow.__version__)"
+# Projet OpenFoodFacts - FEV
 
-Informations:
-openfoodfact page : https://world.openfoodfacts.org/data
-fiel of the data : https://world.openfoodfacts.org/data/data-fields.txt
+## Configuration de l'environnement Conda
+
+### 1. Créer l'environnement Conda
+
+```bash
+conda create -n openfoodfacts python=3.10
+conda activate openfoodfacts
+```
+
+### 2. Installation des dépendances
+
+```bash
+# Analyse de données
+conda install pandas pyarrow
+
+# Visualisation
+conda install matplotlib
+pip install plotnine
+
+# Netoyage des données
+pip install spacy
+python -m spacy download en_core_web_sm
+
+# Gestion des pays
+pip install pycountry
+```
+
+### 3. Vérification de l'installation
+
+```bash
+python -c "import pandas; print('pandas:', pandas.__version__)"
+python -c "import pyarrow; print('pyarrow:', pyarrow.__version__)"
+python -c "import matplotlib; print('matplotlib:', matplotlib.__version__)"
+python -c "import plotnine; print('plotnine:', plotnine.__version__)"
+python -c "import spacy; print('spacy:', spacy.__version__)"
+python -c "import pycountry; print('pycountry:', pycountry.__version__)"
+```
+
+## Liste complète des packages Python nécessaires
+
+- **pandas** : Manipulation et analyse de données
+- **pyarrow** : Lecture de fichiers Parquet
+- **matplotlib** : Création de graphiques
+- **plotnine** : Grammaire de graphiques (ggplot2 pour Python)
+- **spacy** : Traitement du langage naturel
+- **pycountry** : Base de données des pays
+- **pathlib** : Manipulation de chemins de fichiers (inclus dans Python standard)
+
+## Téléchargement des données
+
+Télécharger le fichier Parquet OpenFoodFacts et le placer dans le dossier `data/` :
+
+```bash
+cd data/
+wget -O food.parquet "https://huggingface.co/datasets/openfoodfacts/product-database/resolve/main/food.parquet?download=true"
+cd ..
+```
+
+## Génération des fichiers CSV
+
+Une fois les données téléchargées, générez les fichiers CSV nettoyés :
+
+```bash
+cd src
+./generate_csv.sh
+```
+
+Ce script effectue 3 étapes :
+1. **Parsing** : Extraction des données du fichier Parquet
+2. **Filtrage** : Suppression des lignes avec données manquantes
+3. **Nettoyage** : Normalisation des catégories et des pays
+
+Fichiers CSV générés dans `data/` :
+- `openfoodfacts_en_clean.csv` - Données brutes extraites
+- `openfoodfacts_en_clean_filtered.csv` - Données filtrées
+- `openfoodfacts_categories_clean.csv` - Données nettoyées avec catégories et pays normalisés
+
+## Création des visualisations
+
+Une fois les fichier csv généré, générez les plots :
+
+```bash
+cd src
+./generate_plots.sh
+```
+
+### Graphiques disponibles
+
+```bash
+cd src
+
+# Distribution des catégories par pays d'origine
+python visualization/plot_categorie.py
+
+# Taux de sucres par pays
+python visualization/plot_sugar.py
+
+# Exportations vs Importations par catégorie
+python visualization/plot_trade_categories.py
+
+# Comparaison des taux de sucres par produit et pays
+python visualization/boxplot.py
+```
+
+### Analyse par produit spécifique
+
+Pour analyser un produit particulier (ex: Coca-Cola, Pepsi) :
+
+```bash
+python analysis/sugar_country_analysis.py nom_du_produit
+```
+
+Les graphiques sont sauvegardés dans le dossier `data/`.
+
+## Informations
+
+- OpenFoodFacts page : https://world.openfoodfacts.org/data
+- Liste des champs de données : https://world.openfoodfacts.org/data/data-fields.txt

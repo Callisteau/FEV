@@ -8,7 +8,7 @@ import re
 # LOAD DATA
 # --------
 
-BASE_DIR = Path(__file__).resolve().parent.parent
+BASE_DIR = Path(__file__).resolve().parent.parent.parent
 data_dir = BASE_DIR / "data" 
 data_csv = data_dir / f"openfoodfacts_en_clean_filtered.csv"
 df = pd.read_csv(data_csv, sep="\t")

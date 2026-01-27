@@ -1,6 +1,10 @@
 import pyarrow.dataset as ds
 import pyarrow.parquet as pq
 import pandas as pd
+from pathlib import Path
+
+BASE_DIR = Path(__file__).resolve().parent.parent.parent
+DATA_DIR = BASE_DIR / "data"
 
 SUGAR_NAMES = {"sugar", "sugars", "glucose", "fructose", "sucrose"}
 
@@ -90,8 +94,8 @@ if __name__ == "__main__":
         "categories"
     ]
     process_openfoodfacts_parquet(
-        parquet_path="../data/food.parquet",
-        output_csv="openfoodfacts_en_clean.csv",
+        parquet_path=str(DATA_DIR / "food.parquet"),
+        output_csv=str(DATA_DIR / "openfoodfacts_en_clean.csv"),
         language_filter="en",
         columns=useful_columns
     )
