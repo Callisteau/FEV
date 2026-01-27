@@ -56,7 +56,7 @@ def plot_sugar_by_country(product_name):
 
 if __name__ == "__main__":
     if len(sys.argv) < 2:
-        print("Usage: python3 plot_product.py product_name")
+        print("Usage: python3 sugar_country_analysis.py product_name")
         sys.exit(1)
 
     product = sys.argv[1]

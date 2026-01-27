@@ -3,9 +3,8 @@ import matplotlib.pyplot as plt
 from pathlib import Path
 
 
-BASE_DIR = Path(__file__).resolve().parent.parent
+BASE_DIR = Path(__file__).resolve().parent.parent.parent
 RESULTS_DIR = BASE_DIR / "data" / "results"
-
 
 def load_all_results():
 
@@ -27,7 +26,7 @@ def main(top_n_countries=6):
     df = load_all_results()
 
     # ---------------------------
-    # 1️⃣ Countries with most coverage
+    # Countries with most coverage
     # ---------------------------
     country_counts = df["country"].value_counts()
 
