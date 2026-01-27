@@ -24,6 +24,11 @@ def load_all_results():
 def main(top_n_countries=6):
 
     df = load_all_results()
+    product_means = (
+        df.groupby("product")["avg_sugars_100g"]
+        .mean()
+        .rename("product_mean")
+    )
 
     # ---------------------------
     # Countries with most coverage
@@ -34,12 +39,6 @@ def main(top_n_countries=6):
 
     df = df[df["country"].isin(selected_countries)]
 
-
-    product_means = (
-        df.groupby("product")["avg_sugars_100g"]
-        .mean()
-        .rename("product_mean")
-    )
 
     df = df.merge(product_means, on="product")
 
